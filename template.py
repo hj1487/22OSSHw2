@@ -3,42 +3,47 @@
 
 import sys
 import pandas as pd
-import sklearn as sl
 
 def load_dataset(dataset_path):
-	#To-Do: Implement this function
+	data=pd.read_csv(dataset_path)
+	data_df=pd.DataFrame(data)
 	#load the csv file at the given path into the pandas DataFrame and return the DataFrame
-	return
+	return data_df
 
 def dataset_stat(dataset_df):	
-	#To-Do: Implement this function
-	#For the given DataFram, return the following statistical analysis results in order
+	#For the given DataFrame, return the following statistical analysis results in order
 	#Number of fetures, Number of data for class 0
 	#Number of data for class 1
-	return
+	n_feats=data_df.shape[1]
+
+	n_class0=n_class1=0
+	if(data_df['target']==0):
+		n_class0=n_class0+1
+	elif(data_df['target']==1):
+		n_class1=n_class1+1
+
+	return n_feats, n_class0, n_class1
 
 def split_dataset(dataset_df, testset_size):
-	#To-Do: Implement this function
-	#Splitting the given DataFrame and return train data, test data, train labe, and test label in order
+	#Splitting the given DataFrame and return train data, test data, train label, and test label in order
 	#You must split the data using the given test size
+
+
 	return
 
 def decision_tree_train_test(x_train, x_test, y_train, y_test):
-	#To-Do: Implement this function
 	#Using the given train dataset, train the decision tree model-implement with default arguments
 	#After training, evaluate the performances of the model using the given test dataset
 	#Return three performance metrics (accuracy, precision, recall) in order
 	return
 
 def random_forest_train_test(x_train, x_test, y_train, y_test):
-	#To-Do: Implement this function
 	#Using the given train dataset, train the random forest model-default arguments
 	#After traiing, evaluate the performances of the model using the given test dataset
 	#Return three performance metrics(accuracy, preciison, recall) in order
 	return
 
 def svm_train_test(x_train, x_test, y_train, y_test):
-	#To-Do: Implement this function
 	#trian the pipeline consists of a standard scaler and SVM-default argument
 	#evaluate the performances of the model using the given test dataset
 	#Return three performance metrics in order
