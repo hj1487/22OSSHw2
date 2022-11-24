@@ -1,11 +1,13 @@
 #PLEASE WRITE THE GITHUB URL BELOW!
-#https://github.com/hj1487
+#https://github.com/hj1487/22OSSHw2.git
 
 import sys
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier, RandomForestClassifier
-from skleran.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.metrics import accuracy_score, precision_score, recall_score
 
 def load_dataset(dataset_path):
 	data=pd.read_csv(dataset_path)
@@ -17,7 +19,7 @@ def dataset_stat(dataset_df):
 	#For the given DataFrame, return the following statistical analysis results in order
 	#Number of fetures, Number of data for class 0
 	#Number of data for class 1
-	n_feats=data_df.shape[1]
+	n_feats=data_df.shape[1]-1
 
 	n_class0=data_df.groupby("target").size()[0]
 	n_class1=data_df.groupby("target").size()[1]	
@@ -27,7 +29,7 @@ def dataset_stat(dataset_df):
 def split_dataset(dataset_df, testset_size):
 	#Splitting the given DataFrame and return train data, test data, train label, and test label in order
 	#You must split the data using the given test size
-	x_train, x_test, y_train, y_test=train_test_split(data_df.drop(columns="target",axis=1), data_df["target"], testset_size)
+	x_train, x_test, y_train, y_test=train_test_split(data_df.drop(columns="target"), data_df["target"], test_size=testset_size)
 
 	return x_train, x_test, y_train, y_test
 
@@ -49,11 +51,11 @@ def random_forest_train_test(x_train, x_test, y_train, y_test):
 	#After traiing, evaluate the performances of the model using the given test dataset
 	#Return three performance metrics(accuracy, preciison, recall) in order
 	rf_cls=RandomForestClassifier()
-	rf_cls.fit(x_train,y_train)
+	rf_cls.fit(x_train, y_train)
 
-	accuracy=accuracy_score(y_test,rf_cls.predict(x_test))
-	precision=precision_score(y_test,rf_cls.predict(x_test))
-	recall=recall_score(y_test,rf_cls.predict(x_test))
+	accuracy=accuracy_score(y_test, rf_cls.predict(x_test))
+	precision=precision_score(y_test, rf_cls.predict(x_test))
+	recall=recall_score(y_test, rf_cls.predict(x_test))
 
 	return accuracy, precision, recall
 
