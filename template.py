@@ -3,6 +3,9 @@
 
 import sys
 import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeClassifier, RandomForestClassifier
+from skleran.svm import SVC
 
 def load_dataset(dataset_path):
 	data=pd.read_csv(dataset_path)
@@ -16,38 +19,56 @@ def dataset_stat(dataset_df):
 	#Number of data for class 1
 	n_feats=data_df.shape[1]
 
-	n_class0=n_class1=0
-	if(data_df['target']==0):
-		n_class0=n_class0+1
-	elif(data_df['target']==1):
-		n_class1=n_class1+1
+	n_class0=data_df.groupby("target").size()[0]
+	n_class1=data_df.groupby("target").size()[1]	
 
 	return n_feats, n_class0, n_class1
 
 def split_dataset(dataset_df, testset_size):
 	#Splitting the given DataFrame and return train data, test data, train label, and test label in order
 	#You must split the data using the given test size
+	x_train, x_test, y_train, y_test=train_test_split(data_df.drop(columns="target",axis=1), data_df["target"], testset_size)
 
-
-	return
+	return x_train, x_test, y_train, y_test
 
 def decision_tree_train_test(x_train, x_test, y_train, y_test):
 	#Using the given train dataset, train the decision tree model-implement with default arguments
 	#After training, evaluate the performances of the model using the given test dataset
 	#Return three performance metrics (accuracy, precision, recall) in order
-	return
+	dt_cls=DecisionTreeClassifier()
+	dt_cls.fit(x_train,y_train)
+
+	accuracy=accuracy_score(y_test,dt_cls.predict(x_test))
+	precision=precision_score(y_test,dt_cls.predict(x_test))
+	recall=recall_score(y_test,dt_cls.predict(x_test))
+
+	return accuracy, precision, recall
 
 def random_forest_train_test(x_train, x_test, y_train, y_test):
 	#Using the given train dataset, train the random forest model-default arguments
 	#After traiing, evaluate the performances of the model using the given test dataset
 	#Return three performance metrics(accuracy, preciison, recall) in order
-	return
+	rf_cls=RandomForestClassifier()
+	rf_cls.fit(x_train,y_train)
+
+	accuracy=accuracy_score(y_test,rf_cls.predict(x_test))
+	precision=precision_score(y_test,rf_cls.predict(x_test))
+	recall=recall_score(y_test,rf_cls.predict(x_test))
+
+	return accuracy, precision, recall
 
 def svm_train_test(x_train, x_test, y_train, y_test):
 	#trian the pipeline consists of a standard scaler and SVM-default argument
 	#evaluate the performances of the model using the given test dataset
 	#Return three performance metrics in order
-	return
+	svm_cls=SVC()
+	svm_cls.fit(x_train,y_train)
+
+	accuracy=accuracy_score(y_test,svm_cls.predict(x_test))
+	precision=precision_score(y_test,svm_cls.predict(x_test))
+	recall=recall_score(y_test,svm_cls.predict(x_test))
+
+	return accuracy, precision, recall
 
 def print_performances(acc, prec, recall):
 	#Do not modify this function!
